@@ -3,44 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   game_life.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 18:17:31 by aptive            #+#    #+#             */
-/*   Updated: 2022/02/15 20:15:47 by aptive           ###   ########.fr       */
+/*   Updated: 2022/02/16 19:42:05 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/game_life.h"
 
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
+int	render_next_frame(t_data *vars)
 {
-	char	*dst;
-
-	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	*(unsigned int*)dst = color;
-}
-
-void	ft_lign_vertical(t_data vars, int x, int y, int y_end, int color)
-{
-	while (y < y_end)
+	int i;
+	i = 0;
+	if(vars->begin)
 	{
-		my_mlx_pixel_put(&vars, x, y, color);
-		y++;
+		ft_rules(vars->tab_coord);
+		while (vars->tab_coord[i])
+		{
+			if (vars->tab_coord[i]->full == 1)
+				ft_full(*vars, *vars->tab_coord[i]);
+			else
+				ft_empty(*vars, *vars->tab_coord[i]);
+			i++;
+		}
+		mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->img, 0, 0);
 	}
-}
-
-void	ft_lign_horizontal(t_data vars, int x, int x_end, int y,int color)
-{
-	while (x < x_end)
-	{
-		my_mlx_pixel_put(&vars, x, y, color);
-		x++;
-	}
-}
-
-int	render_next_frame(t_data *img)
-{
-	mlx_put_image_to_window(img->mlx, img->mlx_win, img->img, 0, 0);
+	usleep(300000);
 	return (1);
 }
 
@@ -50,51 +39,84 @@ int	main()
 	t_data	vars;
 	int	i;
 
+	(void) tab_coord;
+	(void) i;
+	vars.begin = 0;
 	vars.mlx = mlx_init();
 	vars.mlx_win = mlx_new_window(vars.mlx, WIDTH_SCREEN, HEIGHT_SCREEN, "Game Life");
 	vars.img = mlx_new_image(vars.mlx, WIDTH_SCREEN, HEIGHT_SCREEN);
 	vars.addr = mlx_get_data_addr(vars.img, &vars.bits_per_pixel, &vars.line_length,&vars.endian);
 
-	i = 0;
-	while (i <= WIDTH_SCREEN)
-	{
-		ft_lign_vertical(vars, i, 0, HEIGHT_SCREEN, GREEN);
-		i = i + 20;
-	}
-	i = 0;
-	while (i <= HEIGHT_SCREEN)
-	{
-		ft_lign_horizontal(vars, 0, WIDTH_SCREEN, i, GREEN);
-		i = i + 20;
-	}
-	tab_coord = NULL;
-	printf("taille : %d\n", (HEIGHT_SCREEN / 20) * (WIDTH_SCREEN / 20));
-	tab_coord = ft_init_point(tab_coord);
-	int z = 2500;
-	tab_coord[z]->full = 1;
+	ft_grille(vars);
+	mlx_put_image_to_window(vars.mlx, vars.mlx_win, vars.img, 0, 0);
 
-	tab_coord[z - 1]->full = 1;
-	tab_coord[z + 1]->full = 1;
-	tab_coord[z + 54]->full = 1;
-	tab_coord[z - 54]->full = 1;
-	tab_coord[z + 54 + 1]->full = 1;
-	tab_coord[z + 54 - 1]->full = 1;
-	tab_coord[z - 54 + 1]->full = 1;
-	tab_coord[z - 54 - 1]->full = 1;
+	tab_coord = NULL;
+	tab_coord = ft_init_point(tab_coord);
+	vars.tab_coord = tab_coord;
 	i = 0;
-	while (tab_coord[i])
+/*
+	vars.tab_coord[2619 + LINE]->full = 1;
+		ft_full(vars, *vars.tab_coord[2619 + LINE ]);
+	vars.tab_coord[2619]->full = 1;
+		ft_full(vars, *vars.tab_coord[2619]);
+
+	vars.tab_coord[2619 + LINE + 1]->full = 1;
+		ft_full(vars, *vars.tab_coord[2619 + LINE + 1]);
+
+	vars.tab_coord[2619 + LINE - 1]->full = 1;
+		ft_full(vars, *vars.tab_coord[2619 + LINE - 1]);
+
+	vars.tab_coord[2619 + LINE * 2 - 1]->full = 1;
+		ft_full(vars, *vars.tab_coord[2619 + LINE * 2 - 1]);
+*/
+	while ( i <= 15)
 	{
-		if(tab_coord[i]->full == 1)
-			ft_full(vars, *tab_coord[i]);
+		vars.tab_coord[2619 + LINE * i]->full = 1;
+		ft_full(vars, *vars.tab_coord[2619 + LINE * i]);
+		vars.tab_coord[2619 - LINE + i]->full = 1;
+		ft_full(vars, *vars.tab_coord[2619 - LINE * i]);
 		i++;
 	}
-	//ft_full(vars, *tab_coord[1]);
+/*
+	while (i < 10)
+	{
+		vars.tab_coord[2592 + 27 + i]->full = 1;
+		ft_full(vars, *vars.tab_coord[2592 + 27 + i]);
+		i++;
+	}*/
+	mlx_put_image_to_window(vars.mlx, vars.mlx_win, vars.img, 0, 0);
+	sleep(5);
+
+
+	mlx_key_hook(vars.mlx_win, key_hook, &vars);
+	printf("begin : %d\n", vars.begin);
+
+	mlx_loop_hook(vars.mlx, render_next_frame, &vars);
+
 	mlx_put_image_to_window(vars.mlx, vars.mlx_win, vars.img, 0, 0);
 	mlx_loop(vars.mlx);
-
-	printf("ok\n");
-
 	return (0);
+}
+int	ft_close(int keycode, t_data *vars)
+{
+	(void) keycode;
+	mlx_destroy_window(vars->mlx, vars->mlx_win);
+	exit(1);
+	return (0);
+}
+
+int	key_hook(int keycode, t_data *vars)
+{
+	(void)vars;
+	if (keycode == 53)
+		ft_close(keycode, vars);
+	if (keycode == 49 && vars->begin == 0)
+		vars->begin = 1;
+	else if (keycode == 49 && vars->begin == 1)
+		vars->begin = 0;
+	printf("key = %d\n",keycode);
+
+	return (1);
 }
 
 t_coord	**ft_init_point(t_coord *(*tab_coord))
@@ -121,42 +143,10 @@ t_coord	**ft_init_point(t_coord *(*tab_coord))
 			tab_coord[k]->full = 0;
 			j++;
 			k++;
-			//printf("k : %d\n", k);
 		}
 		i++;
-		//printf("i : %d\n", i);
 	}
-/*	printf("test x_pt : %d\n",tab_coord[40]->x_pt);
-	printf("test y_pt : %d\n",tab_coord[40]->y_pt);
-	printf("test full : %d\n",tab_coord[40]->full);
-*/	tab_coord[size] = NULL;
+	tab_coord[size] = NULL;
 	return (tab_coord);
 }
 
-void	ft_full(t_data vars, t_coord point)
-{
-	int	x_beg;
-	int	x_end;
-
-	int	y_beg;
-	int	y_end;
-
-	int	x_actual;
-
-	x_beg = 20 * point.x_pt;
-	x_end = 20 * (point.x_pt + 1);
-
-	y_beg = 20 * point.y_pt;
-	y_end = 20 * (point.y_pt + 1);
-	printf("x_beg : %d\n", x_beg);
-	printf("x_end : %d\n", x_end);
-
-	printf("y_beg : %d\n", y_beg);
-	printf("y_end : %d\n", y_end);
-	x_actual = x_beg + 1;
-	while (x_actual < x_end)
-	{
-		ft_lign_vertical(vars, x_actual, y_beg, y_end, GREEN_LIGHT);
-		x_actual++;
-	}
-}
