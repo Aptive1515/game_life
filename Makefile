@@ -6,7 +6,7 @@
 #    By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/02/22 23:12:10 by pbondoer          #+#    #+#              #
-#    Updated: 2022/02/16 18:19:04 by tdelauna         ###   ########.fr        #
+#    Updated: 2022/02/17 16:03:01 by tdelauna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,9 @@ OBJDIR	= ./obj
 SRC		= 	game_life.c \
 			ft_color.c \
 			ft_affichage.c \
-			ft_rules.c
+			ft_rules.c \
+			ft_hook.c \
+			ft_base.c
 
 OBJ		= $(addprefix $(OBJDIR)/,$(SRC:.c=.o))
 

@@ -6,7 +6,7 @@
 /*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 18:17:29 by aptive            #+#    #+#             */
-/*   Updated: 2022/02/16 19:17:23 by tdelauna         ###   ########.fr       */
+/*   Updated: 2022/02/17 16:29:25 by tdelauna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct	s_coordonnees {
 	int	x_pt;
 	int	y_pt;
 	int	full;
+	int	full_next;
 }				t_coord;
 
 typedef struct	s_data {
@@ -62,9 +63,6 @@ void	ft_grille(t_data vars);
 /*
 FT_GAME_LIFE_C ------------------------------------------------------------------
 */
-
-int		ft_close(int keycode, t_data *vars);
-int		key_hook(int keycode, t_data *vars);
 int		render_next_frame(t_data	*vars);
 t_coord	**ft_init_point(t_coord *(*tab_coord));
 /*
@@ -80,4 +78,21 @@ FT_RULES_C ---------------------------------------------------------------------
 */
 int		ft_check_neighbor(t_coord *(*tab_coord), int nb);
 void	ft_rules(t_coord *(*tab_coord));
+void	ft_full_next(t_coord *(*tab_coord));
+
+/*
+FT_HOOK_C -----------------------------------------------------------------------
+*/
+int		ft_clean(t_data *vars);
+int		ft_close(int keycode, t_data *vars);
+int		key_hook(int keycode, t_data *vars);
+/*
+FT_BASE_C -----------------------------------------------------------------------
+*/
+void	ft_put_full(t_data *vars);
+void	ft_one(t_data *vars);
+void	ft_two(t_data *vars);
+void	ft_three(t_data *vars);
+void	ft_four(t_data *vars);
+
 #endif
