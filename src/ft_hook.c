@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_hook.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/17 15:41:21 by tdelauna          #+#    #+#             */
-/*   Updated: 2022/02/17 16:12:16 by tdelauna         ###   ########.fr       */
+/*   Updated: 2022/02/17 22:11:33 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/game_life.h"
-
+/*
 int	key_hook(int keycode, t_data *vars)
 {
 	(void)vars;
@@ -30,6 +30,37 @@ int	key_hook(int keycode, t_data *vars)
 	else if (keycode == 20)
 		ft_three(vars);
 	else if (keycode == 21)
+		ft_four(vars);
+	*//*else if (keycode == 23)
+	else if (keycode == 22)
+	else if (keycode == 26)
+	else if (keycode == 28)
+	else if (keycode == 25)
+	else if (keycode == 29)*/
+/*
+	printf("key = %d\n",keycode);
+
+	return (1);
+}*/
+
+int	key_hook(int keycode, t_data *vars)
+{
+	(void)vars;
+	if (keycode == 65307)
+		ft_close(keycode, vars);
+	if (keycode == 32 && vars->begin == 0)
+		vars->begin = 1;
+	else if (keycode == 32 && vars->begin == 1)
+		vars->begin = 0;
+	else if (keycode == 99)
+		ft_clean(vars);
+	else if (keycode == 49)
+		ft_one(vars);
+	else if (keycode == 50)
+		ft_two(vars);
+	else if (keycode == 51)
+		ft_three(vars);
+	else if (keycode == 52)
 		ft_four(vars);
 	/*else if (keycode == 23)
 	else if (keycode == 22)

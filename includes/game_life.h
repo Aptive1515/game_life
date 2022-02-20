@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game_life.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 18:17:29 by aptive            #+#    #+#             */
-/*   Updated: 2022/02/17 16:29:25 by tdelauna         ###   ########.fr       */
+/*   Updated: 2022/02/20 17:21:53 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include <stdio.h>
-# include <mlx.h>
+# include "../miniLibX_X11/mlx.h"
 
 //# include "../miniLibX/mlx.h"
 
@@ -94,5 +94,11 @@ void	ft_one(t_data *vars);
 void	ft_two(t_data *vars);
 void	ft_three(t_data *vars);
 void	ft_four(t_data *vars);
-
+/*
+FT_MOUSE_C ----------------------------------------------------------------------
+*/
+int		ft_mouse_hook(int keycode, int x, int y, t_data *vars);
+int		ft_put_cell(int nb, t_data *vars);
+int		ft_delete_cell(int nb, t_data *vars);
+int		ft_find_coord(int x, int y, t_coord *(*tab_coord));
 #endif

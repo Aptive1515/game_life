@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_rules.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 16:53:31 by tdelauna          #+#    #+#             */
-/*   Updated: 2022/02/17 15:39:38 by tdelauna         ###   ########.fr       */
+/*   Updated: 2022/02/17 22:12:26 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void ft_rules(t_coord *(*tab_coord))
 
 	i = 0;
 	neighbor = 0;
-	while (tab_coord[i])
+	while (tab_coord[i] && i < 5100)
 	{
 		neighbor = ft_check_neighbor(tab_coord, i);
 		/*if(tab_coord[i]->full)

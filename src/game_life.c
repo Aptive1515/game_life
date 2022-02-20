@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game_life.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelauna <tdelauna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aptive <aptive@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 18:17:31 by aptive            #+#    #+#             */
-/*   Updated: 2022/02/17 16:27:36 by tdelauna         ###   ########.fr       */
+/*   Updated: 2022/02/20 16:58:20 by aptive           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,9 @@ int	main()
 		i++;
 	}
 	mlx_put_image_to_window(vars.mlx, vars.mlx_win, vars.img, 0, 0);
-
-
-
 	mlx_key_hook(vars.mlx_win, key_hook, &vars);
-
+	mlx_mouse_hook(vars.mlx_win, ft_mouse_hook, &vars);
 	mlx_loop_hook(vars.mlx, render_next_frame, &vars);
-
 	mlx_put_image_to_window(vars.mlx, vars.mlx_win, vars.img, 0, 0);
 	mlx_loop(vars.mlx);
 	return (0);
